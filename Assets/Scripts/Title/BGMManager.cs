@@ -14,11 +14,14 @@ public class BGMManager : Singleton<BGMManager>
     {
         base.Init();
         DontDestroyOnLoad(gameObject);
+        if (titleBGM == null) return;
         titleBGM.Play();
     }
 
     public void firstStage()
     {
+        if (titleBGM == null|| firstStageBGM==null) return;
+
         titleBGM.Stop();
         firstStageBGM.Play();
     }
