@@ -39,6 +39,10 @@ public class Player : MonoBehaviour
             ChangeMainPlayer();
 
         }
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            FadeManager.FadeOut(0);
+        }
     }
     private void Init()
     {
@@ -59,20 +63,49 @@ public class Player : MonoBehaviour
         SetTag(subTag, greenPlayer);
         SetTag(subTag, yellowPlayer);
 
-        
     }
     private void RotationMove(GameObject target)
     {
         
         time += Time.deltaTime;
 
-        redPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+        //redPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+        if (time < count + count)
+        {
 
-        bluePlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360/period * Time.deltaTime);
-        if(time > count)
-            yellowPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
-        if (time > count+count)
-            greenPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+            bluePlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+            if (time > count)
+                yellowPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+
+        }
+        if (time > count + count)
+        {
+            if (type == MAINPLAYER_TYPE.RED)
+            {
+                bluePlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                yellowPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                greenPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+            }
+            else if (type == MAINPLAYER_TYPE.BLUE)
+            {
+                redPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                yellowPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                greenPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+            }
+            else if (type == MAINPLAYER_TYPE.GREEN)
+            {
+                redPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                bluePlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                yellowPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+            }
+            else if (type == MAINPLAYER_TYPE.YELLOW)
+            {
+                redPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                bluePlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+                greenPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);
+            }
+        }
+        
     }
     private bool CanMove()
     {

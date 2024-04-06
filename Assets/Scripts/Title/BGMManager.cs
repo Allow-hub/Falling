@@ -25,4 +25,9 @@ public class BGMManager : Singleton<BGMManager>
         titleBGM.Stop();
         firstStageBGM.Play();
     }
+    public void SetBGMVolume(float volume)
+    {
+        titleBGM.volume = volume;
+        firstStageBGM.volume=volume;
+    }
 }

@@ -11,12 +11,18 @@ public class PlayerCam : MonoBehaviour
     [SerializeField] Transform orientation;
 
     float xRotation;
-    float yRotation;
+    public float yRotation;
     // Start is called before the first frame update
     void Start()
     {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
+
+        if (GameManager.Instance != null)
+        {
+            sensX = GameManager.Instance.sensX;
+            sensY = GameManager.Instance.sensY;
+        }
     }
 
     // Update is called once per frame
@@ -32,6 +38,7 @@ public class PlayerCam : MonoBehaviour
         //éãñÏÇÃêßå¿
         xRotation=Mathf.Clamp(xRotation, -90f, 90f);
         yRotation = Mathf.Clamp(yRotation, -90f, 90f);
+       // Debug.Log(yRotation);
         transform.rotation= Quaternion.Euler(0, 0, yRotation);
         orientation.rotation = Quaternion.Euler(0, 0, yRotation);
     }
