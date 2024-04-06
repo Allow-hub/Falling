@@ -8,6 +8,7 @@ public class AreaMove : MonoBehaviour
     private void Update()
     {
         Move(gameObject);
+        Debug.Log(player.move);
     }
     private void Move(GameObject obj)
     {

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -9,10 +10,13 @@ public class Player : MonoBehaviour
     // 円運動周期
     [SerializeField] private float period = 2;
     [SerializeField] float count=0.7f;
+    [SerializeField] string mainTag = "MainPlayer";
+    [SerializeField] string subTag = "SubPlayer";
     public float startTime;
     public Vector3 move { get; private set; }
+    [SerializeField] float speed;
     float time;
-
+    private GameObject[] colorGimmic;
     private enum MAINPLAYER_TYPE
     {
         RED,
@@ -50,6 +54,12 @@ public class Player : MonoBehaviour
         greenPlayer.transform.position = center + new Vector3(radius, 0f, 0f);
 
         type = MAINPLAYER_TYPE.RED;
+        SetTag(mainTag, redPlayer);
+        SetTag(subTag, bluePlayer);
+        SetTag(subTag, greenPlayer);
+        SetTag(subTag, yellowPlayer);
+
+        
     }
     private void RotationMove(GameObject target)
     {
@@ -73,9 +83,15 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             float moveTime = 0.025f; // 移動にかける時間
+            colorGimmic = GameObject.FindGameObjectsWithTag("ColorGimmic");
 
+            foreach (var c in colorGimmic)
+            {
+                ColorBlock colorBlock = c.GetComponent<ColorBlock>();
+                colorBlock.DistanceEvent();
+            }
             //中心が赤なら青と入れ替え
-            if(type == MAINPLAYER_TYPE.RED)
+            if (type == MAINPLAYER_TYPE.RED)
             {
                 // 赤いプレイヤーを青いプレイヤーの位置に移動させる
                 StartCoroutine(MovePlayer(redPlayer.transform, bluePlayer.transform.position, moveTime));
@@ -83,7 +99,10 @@ public class Player : MonoBehaviour
                 // 青いプレイヤーを中心に戻す
                 StartCoroutine(MovePlayer(bluePlayer.transform, gameObject.transform.position, moveTime));
                 type = MAINPLAYER_TYPE.BLUE;
-            }else if(type == MAINPLAYER_TYPE.BLUE)
+                SetTag(mainTag, bluePlayer);
+                SetTag(subTag, redPlayer);
+            }
+            else if(type == MAINPLAYER_TYPE.BLUE)
             {
                 // 青いプレイヤーを緑プレイヤーの位置に移動させる
                 StartCoroutine(MovePlayer(bluePlayer.transform, greenPlayer.transform.position, moveTime));
@@ -91,6 +110,8 @@ public class Player : MonoBehaviour
                 // 緑プレイヤーを中心に戻す
                 StartCoroutine(MovePlayer(greenPlayer.transform, gameObject.transform.position, moveTime));
                 type=MAINPLAYER_TYPE.GREEN;
+                SetTag(mainTag, greenPlayer);
+                SetTag(subTag, bluePlayer);
             }
             else if (type == MAINPLAYER_TYPE.GREEN)
             {
@@ -100,6 +121,8 @@ public class Player : MonoBehaviour
                 // 緑プレイヤーを中心に戻す
                 StartCoroutine(MovePlayer(yellowPlayer.transform, gameObject.transform.position, moveTime));
                 type = MAINPLAYER_TYPE.YELLOW;
+                SetTag(mainTag, yellowPlayer);
+                SetTag(subTag, greenPlayer);
             }
             else if (type == MAINPLAYER_TYPE.YELLOW)
             {
@@ -109,6 +132,8 @@ public class Player : MonoBehaviour
                 // 緑プレイヤーを中心に戻す
                 StartCoroutine(MovePlayer(redPlayer.transform, gameObject.transform.position, moveTime));
                 type = MAINPLAYER_TYPE.RED;
+                SetTag(mainTag, redPlayer);
+                SetTag(subTag, yellowPlayer);
             }
         }
     }
@@ -134,7 +159,12 @@ public class Player : MonoBehaviour
     {
         GameObject root = transform.root.gameObject;
         Rigidbody rb = root.GetComponent<Rigidbody>();
-        move=new Vector3(0,-10,0);
+        move=new Vector3(0,-speed,0);
         rb.velocity = move;
+    }
+    // ゲームオブジェクトのタグを変更する
+    public void SetTag(string newTag,GameObject obj)
+    {
+        obj.tag = newTag;
     }
 }
