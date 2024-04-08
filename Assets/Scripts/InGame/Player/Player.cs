@@ -39,9 +39,13 @@ public class Player : MonoBehaviour
             ChangeMainPlayer();
 
         }
-        if(Input.GetKeyDown(KeyCode.R))
+        if (GameManager.Instance != null)
         {
-            FadeManager.FadeOut(0);
+            Debug.Log(GameManager.Instance.life);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            FadeManager.FadeOut(1);
         }
     }
     private void Init()
@@ -62,7 +66,10 @@ public class Player : MonoBehaviour
         SetTag(subTag, bluePlayer);
         SetTag(subTag, greenPlayer);
         SetTag(subTag, yellowPlayer);
-
+        if(GameManager.Instance != null)
+        {
+            GameManager.Instance.life = 3;
+        }
     }
     private void RotationMove(GameObject target)
     {
@@ -116,13 +123,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             float moveTime = 0.025f; // à⁄ìÆÇ…Ç©ÇØÇÈéûä‘
-            colorGimmic = GameObject.FindGameObjectsWithTag("ColorGimmic");
-
-            foreach (var c in colorGimmic)
-            {
-                ColorBlock colorBlock = c.GetComponent<ColorBlock>();
-                colorBlock.DistanceEvent();
-            }
+           
             //íÜêSÇ™ê‘Ç»ÇÁê¬Ç∆ì¸ÇÍë÷Ç¶
             if (type == MAINPLAYER_TYPE.RED)
             {
@@ -167,6 +168,14 @@ public class Player : MonoBehaviour
                 type = MAINPLAYER_TYPE.RED;
                 SetTag(mainTag, redPlayer);
                 SetTag(subTag, yellowPlayer);
+            }
+
+            colorGimmic = GameObject.FindGameObjectsWithTag("ColorGimmic");
+
+            foreach (var c in colorGimmic)
+            {
+                ColorBlock colorBlock = c.GetComponent<ColorBlock>();
+                colorBlock.DistanceEvent();
             }
         }
     }

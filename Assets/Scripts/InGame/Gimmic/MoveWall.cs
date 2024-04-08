@@ -45,7 +45,8 @@ public class MoveWall : MonoBehaviour
     {
         if (other.gameObject.CompareTag("MainPlayer"))
         {
-            Debug.Log("‚Ô‚Â‚©‚Á‚½");
+            if (GameManager.Instance == null) return;
+            GameManager.Instance.Damage(2);
         }
     }
 }
