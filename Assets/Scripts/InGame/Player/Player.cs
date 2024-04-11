@@ -39,13 +39,13 @@ public class Player : MonoBehaviour
             ChangeMainPlayer();
 
         }
-        if (GameManager.Instance != null)
-        {
-            Debug.Log(GameManager.Instance.life);
-        }
         if (Input.GetKeyDown(KeyCode.R))
         {
             FadeManager.FadeOut(1);
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            FadeManager.FadeOut(0);
         }
     }
     private void Init()
@@ -73,7 +73,8 @@ public class Player : MonoBehaviour
     }
     private void RotationMove(GameObject target)
     {
-        
+
+
         time += Time.deltaTime;
 
         //redPlayer.transform.RotateAround(target.transform.position, Vector3.forward, 360 / period * Time.deltaTime);

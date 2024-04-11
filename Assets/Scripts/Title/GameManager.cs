@@ -8,6 +8,7 @@ public class GameManager : Singleton<GameManager>
     public float sensY;
     public int life;
     public bool gameOver=false;
+    public bool isMagic=false;
     public static GameManager Instance => I;
     
     protected override void Init()
