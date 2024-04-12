@@ -11,6 +11,9 @@ public class MagicCircle : MonoBehaviour
     [SerializeField] float size;
     [SerializeField] float targetValue = 40f;
     [SerializeField] float duration = 1f;
+    [SerializeField] bool isRandom = false;
+    [ColorUsage(true, true)]
+    public Color redColor,blueColor,greenColor,yellowColor;
     private float elapsedTime = 0f;
     private GameObject player;
     public enum PLAYER_NAME
@@ -28,6 +31,61 @@ public class MagicCircle : MonoBehaviour
         size = 0;
 
         effect.SetFloat("size", size);
+        if(isRandom)
+        {
+            int r = 0;
+            r=Random.Range(0, 4);
+            switch(r)
+            {
+                case 0:
+                    effect.SetVector4("Magic", redColor);
+                    playerName = PLAYER_NAME.Red;
+                    break; 
+                case 1:
+                    effect.SetVector4("Magic", blueColor);
+                    playerName = PLAYER_NAME.Blue;
+                    break;
+                case 2:
+                    effect.SetVector4("Magic", greenColor);
+                    playerName = PLAYER_NAME.Green;
+                    break;  
+                case 3:
+                    effect.SetVector4("Magic", yellowColor);
+                    playerName = PLAYER_NAME.Yellow;
+                    break;
+                default:
+                    effect.SetVector4("Magic", redColor);
+                    playerName = PLAYER_NAME.Red;
+                    Debug.Log(gameObject.name + "ÇÃêFÇ™ê›íËÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒ");
+                    break;
+            }
+        }else if (!isRandom)
+        {
+            switch (playerName)
+            {
+                case PLAYER_NAME.Red:
+                    effect.SetVector4("Magic", redColor);
+                    playerName = PLAYER_NAME.Red;
+                    break; 
+                case PLAYER_NAME.Blue:
+                    effect.SetVector4("Magic", blueColor);
+                    playerName = PLAYER_NAME.Blue;
+                    break;
+                case PLAYER_NAME.Green:
+                    effect.SetVector4("Magic", greenColor);
+                    playerName = PLAYER_NAME.Green;
+                    break;
+                case PLAYER_NAME.Yellow:
+                    effect.SetVector4("Magic", yellowColor);
+                    playerName = PLAYER_NAME.Yellow;
+                    break;
+                    default:
+                    effect.SetVector4("Magic", redColor);
+                    playerName = PLAYER_NAME.Red;
+                    Debug.Log(gameObject.name+"ÇÃêFÇ™ê›íËÇ≥ÇÍÇƒÇ¢Ç‹ÇπÇÒ");
+                    break;
+            }
+        }
     }
     private void Update()
     {
